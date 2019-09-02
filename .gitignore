@@ -35,6 +35,7 @@ phpunit.phar
 /frontend/web/assets
 /backend/runtime
 /backend/web/assets
+/console/runtime
 
 # ignore generated files
 /frontend/web/index.php
