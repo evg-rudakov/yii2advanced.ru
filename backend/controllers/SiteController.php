@@ -76,7 +76,14 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            if (Yii::$app->authManager->checkAccess(Yii::$app->user->getId(), 'admin')) {
+                return $this->goBack();
+            }
+            else {
+                Yii::$app->user->logout();
+                Yii::$app->getSession()->setFlash('error', "Вы не администратор.<br> Доступ запрещен!");
+                return $this->redirect(['site/login']);
+            }
         } else {
             $model->password = '';
 
