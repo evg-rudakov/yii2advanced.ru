@@ -31,7 +31,7 @@ class SocketServer implements MessageComponentInterface
         echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n",
             $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
         foreach ($this->clients as $client) {
-            $client->send();
+            $client->send($msg);
         }
     }
 
