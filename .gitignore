@@ -37,6 +37,8 @@ phpunit.phar
 /backend/web/assets
 /console/runtime
 
+/docker/database/*
+
 # ignore generated files
 /frontend/web/index.php
 /frontend/web/index-test.php

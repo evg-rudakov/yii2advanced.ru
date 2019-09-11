@@ -1,38 +1,34 @@
-version: '3.2'
+version: '3'
 
 services:
-
-  frontend:
-    build: frontend
-    ports:
-      - 20080:80
-    volumes:
-      # Re-use local composer cache via host-volume
-      - ~/.composer-docker/cache:/root/.composer/cache:delegated
-      # Mount source-code for development
-      - ./:/app
-
-  backend:
-    build: backend
-    ports:
-      - 21080:80
-    volumes:
-      # Re-use local composer cache via host-volume
-      - ~/.composer-docker/cache:/root/.composer/cache:delegated
-      # Mount source-code for development
-      - ./:/app
-
-  mysql:
-    image: mysql:5.7
+  webserver:
+    container_name: apache-php_yii2advanced
+    build:
+      context: ./
+      dockerfile: ./docker/Dockerfile
     environment:
-      - MYSQL_ROOT_PASSWORD=verysecret
-      - MYSQL_DATABASE=yii2advanced
-      - MYSQL_USER=yii2advanced
-      - MYSQL_PASSWORD=secret
+      XDEBUG_CONFIG: remote_host=host.docker.internal
+      PHP_IDE_CONFIG: serverName=localhost
+    ports:
+    - 80:80
+    volumes:
+    - ./:/var/www
+    links:
+    - db
+    depends_on:
+    - db
 
-  #pgsql:
-  #  image: postgres:9.5
-  #  environment:
-  #    - POSTGRES_DB=yii2advanced
-  #    - POSTGRES_USER=yii2advanced
-  #    - POSTGRES_PASSWORD=secret
+  db:
+    container_name: mysql_yii2advanced
+    image: 'mysql:latest'
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+    - 9520:3306
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: yii2advanced
+      MYSQL_USER: mysqluser
+      MYSQL_PASSWORD: mysqluser
+    volumes:
+    - ./docker/database:/var/lib/mysql
