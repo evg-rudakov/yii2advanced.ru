@@ -6,10 +6,12 @@ chat.onmessage = function(e) {
     console.log(e);
     let response = JSON.parse(e.data);
     $('#chat').append('<div><b>' + response.username + '</b>: ' + response.message + '</div>');
+};
 
 chat.onopen = function (e) {
-   alert('Соединение установлено!');
-}
+   console.log('Соединение установлено!');
+};
+
 $('#send').click(function() {
     chat.send(JSON.stringify({
         'username': username,
@@ -17,5 +19,4 @@ $('#send').click(function() {
         })
     );
     $('#message').val('');
-})
-}
+});
