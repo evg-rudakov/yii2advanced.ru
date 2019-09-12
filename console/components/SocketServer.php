@@ -2,6 +2,7 @@
 
 namespace console\components;
 
+use Yii;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
 use SplObjectStorage;
@@ -21,16 +22,24 @@ class SocketServer implements MessageComponentInterface
     }
 
     private function echoToClient(ConnectionInterface $conn) {
-        $conn->send(json_encode(['message'=>'Всем привет', 'username'=>'Чат студентов']));
+        $conn->send(json_encode([
+            'message'=>'Всем привет',
+            'username'=>'Чат студентов',
+            'date' => Yii::$app->formatter->asDatetime(time())
+        ]));
     }
 
     public function onMessage(ConnectionInterface $from, $msg) {
-        $numRecv = count($this->clients) - 1;
+        $numRecv = $this->clients->count() - 1;
         var_dump($msg);
-        var_dump('clients: ' . count($this->clients));
+        var_dump('clients: ' . $this->clients->count());
         echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n",
             $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
         foreach ($this->clients as $client) {
+            $msg = json_decode($msg, true);
+            $msg['date'] = Yii::$app->formatter->asDatetime(time());
+            $msg = json_encode($msg);
+
             $client->send($msg);
         }
     }

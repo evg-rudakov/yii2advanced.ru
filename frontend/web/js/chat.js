@@ -3,9 +3,9 @@ let chat = new WebSocket('ws://yii2advanced:8080');
 
 chat.onmessage = function(e) {
     $('#response').text('');
-    console.log(e);
+    console.log(e.data);
     let response = JSON.parse(e.data);
-    $('#chat').append('<div><b>' + response.username + '</b>: ' + response.message + '</div>');
+    $('#chat').append('<div>' + response.date + ' - <b>' + response.username + '</b>: ' + response.message + '</div>');
 };
 
 chat.onopen = function (e) {
