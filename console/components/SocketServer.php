@@ -2,6 +2,7 @@
 
 namespace console\components;
 
+use common\models\ChatLog;
 use Yii;
 use Ratchet\ConnectionInterface;
 use Ratchet\MessageComponentInterface;
@@ -33,6 +34,7 @@ class SocketServer implements MessageComponentInterface
         $numRecv = $this->clients->count() - 1;
         var_dump($msg);
         var_dump('clients: ' . $this->clients->count());
+        ChatLog::saveLog($msg);
         echo sprintf('Connection %d sending message "%s" to %d other connection%s' . "\n",
             $from->resourceId, $msg, $numRecv, $numRecv == 1 ? '' : 's');
         foreach ($this->clients as $client) {
