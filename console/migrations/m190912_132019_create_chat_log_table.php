@@ -14,19 +14,11 @@ class m190912_132019_create_chat_log_table extends Migration
     {
         $this->createTable('{{%chat_log}}', [
             'id' => $this->primaryKey(),
-            'user_id' => $this->integer()->notNull(),
+            'username' => $this->string()->notNull(),
             'message' => $this->string(),
             'created_at' => $this->integer()->notNull(),
+            'updated_at' => $this->integer()->notNull(),
         ]);
-        $this->addForeignKey(
-            'fk_chat_log_user_id',
-            'chat_log',
-            'user_id',
-            'user',
-            'id',
-            'CASCADE',
-            'CASCADE'
-        );
     }
 
     /**
@@ -34,7 +26,6 @@ class m190912_132019_create_chat_log_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('fk_chat_log_user_id');
         $this->dropTable('{{%chat_log}}');
     }
 }
