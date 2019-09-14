@@ -5,14 +5,14 @@ use yii\db\Migration;
 /**
  * Handles the creation of table `{{%priority_task}}`.
  */
-class m190907_065521_create_priority_task_table extends Migration
+class m190907_065521_create_task_priority_table extends Migration
 {
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-        $this->createTable('{{%priority_task}}', [
+        $this->createTable('{{%task_priority}}', [
             'id' => $this->primaryKey(),
             'priority_name' => $this->string(255)->notNull(),
         ]);
@@ -23,6 +23,6 @@ class m190907_065521_create_priority_task_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%priority_task}}');
+        $this->dropTable('{{%task_priority}}');
     }
 }

@@ -16,7 +16,7 @@ class m190907_063427_add_fk_status_id_to_task_table extends Migration
             'fk_task_status_id',
             'task',
             'status_id',
-            'status_task',
+            'task_status',
             'id',
             'CASCADE',
             'CASCADE'
@@ -28,6 +28,6 @@ class m190907_063427_add_fk_status_id_to_task_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('fk_task_status_id');
+        $this->dropForeignKey('fk_task_status_id', 'task');
     }
 }

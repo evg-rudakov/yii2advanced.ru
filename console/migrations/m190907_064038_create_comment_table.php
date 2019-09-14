@@ -33,7 +33,7 @@ class m190907_064038_create_comment_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('fk_comment_task_id');
+        $this->dropForeignKey('fk_comment_task_id', 'comment');
         $this->dropTable('{{%comment}}');
     }
 }

@@ -19,6 +19,8 @@ class m190907_060120_create_task_table extends Migration
             'author_id' => $this->integer()->notNull(),
             'status_id' => $this->Integer()->notNull(),
             'priority_id' => $this->Integer()->notNull(),
+            'created_at' => $this->integer()->notNull(),
+            'updated_at' => $this->integer()->notNull(),
         ]);
     }
 

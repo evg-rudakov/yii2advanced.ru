@@ -33,7 +33,7 @@ class m190907_063751_create_tag_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('fk_tag_task_id');
+        $this->dropForeignKey('fk_tag_task_id', 'tag');
         $this->dropTable('{{%tag}}');
     }
 }
