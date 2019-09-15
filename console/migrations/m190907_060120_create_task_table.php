@@ -19,9 +19,19 @@ class m190907_060120_create_task_table extends Migration
             'author_id' => $this->integer()->notNull(),
             'status_id' => $this->Integer()->notNull(),
             'priority_id' => $this->Integer()->notNull(),
+            'project_id' => $this->Integer()->notNull(),
             'created_at' => $this->integer()->notNull(),
             'updated_at' => $this->integer()->notNull(),
         ]);
+        $this->addForeignKey(
+            'fk_task_user_id',
+            'task',
+            'author_id',
+            'user',
+            'id',
+            'CASCADE',
+            'CASCADE'
+        );
     }
 
     /**
@@ -29,6 +39,7 @@ class m190907_060120_create_task_table extends Migration
      */
     public function safeDown()
     {
+        $this->dropForeignKey('fk_task_user_id', 'task');
         $this->dropTable('{{%task}}');
     }
 }

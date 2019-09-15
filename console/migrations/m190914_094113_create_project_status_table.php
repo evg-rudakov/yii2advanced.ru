@@ -14,7 +14,7 @@ class m190914_094113_create_project_status_table extends Migration
     {
         $this->createTable('{{%project_status}}', [
             'id' => $this->primaryKey(),
-            'name' => $this->string()->notNull(),
+            'status_name' => $this->string()->notNull(),
         ]);
     }
 
