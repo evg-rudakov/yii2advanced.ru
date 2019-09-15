@@ -15,11 +15,9 @@ use yii\db\ActiveRecord;
  */
 class ProjectStatus extends ActiveRecord
 {
-    const NEW_ID = 1;
-    const IN_PROGRESS_ID = 2;
-    const ON_TESTING_ID = 3;
-    const READY_ID = 4;
-    const ARCHIVE_ID = 5;
+    const IN_PROGRESS_ID = 1;
+    const IN_PLANNING_ID = 2;
+    const FINISHED = 3;
 
     /**
      * {@inheritdoc}
@@ -61,11 +59,10 @@ class ProjectStatus extends ActiveRecord
 
     public static function getValueName() {
         return [
-            self::NEW_ID => 'Новый',
             self::IN_PROGRESS_ID => 'В работе',
-            self::ON_TESTING_ID => 'На тестировании',
-            self::READY_ID => 'Выполнен',
-            self::ARCHIVE_ID => 'Архивный',
+            self::IN_PLANNING_ID => 'Планируется',
+            self::FINISHED => 'Завершен',
+
         ];
     }
 }
