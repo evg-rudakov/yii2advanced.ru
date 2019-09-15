@@ -31,6 +31,7 @@ phpunit.phar
 # local phpunit config
 /phpunit.xml
 
+/my
 /frontend/runtime
 /frontend/web/assets
 /backend/runtime
