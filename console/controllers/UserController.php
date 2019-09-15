@@ -6,7 +6,7 @@ use Yii;
 use yii\console\Controller;
 use common\models\User;
 
-class UserDefaultController extends Controller
+class UserController extends Controller
 {
     private function addusers(string $usr, string $mail, string $psw, string $authusr) {
         $model = User::find()->where(['username' => $usr])->one();
@@ -34,6 +34,6 @@ class UserDefaultController extends Controller
     }
 
     public function actionAddUserTest() {
-        $this->addusers('user-test', 'ananintest@mail.ru', 'user', 'simple');
+        $this->addusers('usertest', 'ananintest@mail.ru', 'user', 'simple');
     }
 }
