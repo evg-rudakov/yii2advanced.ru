@@ -38,7 +38,8 @@ class Project extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'description', 'author_id', 'status_id', 'created_at', 'updated_at'], 'required'],
+            [['name', 'description', 'author_id', 'status_id'], 'required'],
+            [['created_at', 'updated_at'], 'safe'],
             [['author_id', 'status_id', 'created_at', 'updated_at'], 'integer'],
             [['name', 'description'], 'string', 'max' => 255],
             [['status_id'], 'exist', 'skipOnError' => true, 'targetClass' => ProjectStatus::class, 'targetAttribute' => ['status_id' => 'id']],
