@@ -14,18 +14,8 @@ class m190907_063751_create_tag_table extends Migration
     {
         $this->createTable('{{%tag}}', [
             'id' => $this->primaryKey(),
-            'task_id' => $this->integer()->notNull(),
             'tag_name' => $this->string(255)->notNull(),
         ]);
-        $this->addForeignKey(
-            'fk_tag_task_id',
-            'tag',
-            'task_id',
-            'task',
-            'id',
-            'CASCADE',
-            'CASCADE'
-        );
     }
 
     /**
@@ -33,7 +23,6 @@ class m190907_063751_create_tag_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('fk_tag_task_id');
         $this->dropTable('{{%tag}}');
     }
 }

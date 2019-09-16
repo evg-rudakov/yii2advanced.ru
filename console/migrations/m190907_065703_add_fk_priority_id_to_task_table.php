@@ -16,7 +16,7 @@ class m190907_065703_add_fk_priority_id_to_task_table extends Migration
             'fk_task_priority_id',
             'task',
             'priority_id',
-            'priority_task',
+            'task_priority',
             'id',
             'CASCADE',
             'CASCADE'
@@ -28,6 +28,6 @@ class m190907_065703_add_fk_priority_id_to_task_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('fk_task_priority_id');
+        $this->dropForeignKey('fk_task_priority_id', 'task');
     }
 }

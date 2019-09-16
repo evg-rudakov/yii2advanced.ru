@@ -3,9 +3,9 @@
 use yii\db\Migration;
 
 /**
- * Class m190907_063427_add_fk_status_id_to_task_table
+ * Class m190915_102948_add_fk_project_id_to_task_table
  */
-class m190907_063427_add_fk_status_id_to_task_table extends Migration
+class m190915_102948_add_fk_project_id_to_task_table extends Migration
 {
     /**
      * {@inheritdoc}
@@ -13,10 +13,10 @@ class m190907_063427_add_fk_status_id_to_task_table extends Migration
     public function safeUp()
     {
         $this->addForeignKey(
-            'fk_task_status_id',
+            'fk_task_project_id',
             'task',
-            'status_id',
-            'task_status',
+            'project_id',
+            'project',
             'id',
             'CASCADE',
             'CASCADE'
@@ -28,6 +28,6 @@ class m190907_063427_add_fk_status_id_to_task_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropForeignKey('fk_task_status_id', 'task');
+        $this->dropForeignKey('fk_task_project_id', 'task');
     }
 }

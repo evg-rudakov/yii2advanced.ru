@@ -1,4 +1,5 @@
 <?php
+
 $params = array_merge(
     require __DIR__ . '/../../common/config/params.php',
     require __DIR__ . '/../../common/config/params-local.php',
@@ -14,6 +15,10 @@ $config = [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            'parsers' => [
+                'application/json' => yii\web\JsonParser::class,
+                'charset' => 'UTF-8',
+            ],
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -40,6 +45,13 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                [
+                    'controller' => 'task',
+                    'class' => yii\rest\UrlRule::class,
+                    'extraPatterns' => [
+                       'POST random' => 'random',
+                    ],
+                ],
                 '' => 'site/index',
                 '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
             ],

@@ -5,14 +5,14 @@ use yii\db\Migration;
 /**
  * Handles the creation of table `{{%status_task}}`.
  */
-class m190907_063234_create_status_task_table extends Migration
+class m190907_063234_create_task_status_table extends Migration
 {
     /**
      * {@inheritdoc}
      */
     public function safeUp()
     {
-        $this->createTable('{{%status_task}}', [
+        $this->createTable('{{%task_status}}', [
             'id' => $this->primaryKey(),
             'status_name' => $this->string(255)->notNull(),
         ]);
@@ -23,6 +23,6 @@ class m190907_063234_create_status_task_table extends Migration
      */
     public function safeDown()
     {
-        $this->dropTable('{{%status_task}}');
+        $this->dropTable('{{%task_status}}');
     }
 }
