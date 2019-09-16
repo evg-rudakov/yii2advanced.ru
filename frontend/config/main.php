@@ -45,11 +45,13 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'controller' => 'task',
-                'class' => yii\rest\UrlRule::class,
-                //'extraPatterns' => [
-                //   'GET random/<count>' => 'random',
-                //],
+                [
+                    'controller' => 'task',
+                    'class' => yii\rest\UrlRule::class,
+                    'extraPatterns' => [
+                       'POST random' => 'random',
+                    ],
+                ],
                 '' => 'site/index',
                 '<controller:\w+>/<action:\w+>/' => '<controller>/<action>',
             ],
