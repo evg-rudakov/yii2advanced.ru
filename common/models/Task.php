@@ -5,6 +5,7 @@ namespace common\models;
 use Yii;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use common\models\User;
 
 /**
  * This is the model class for table "task".
@@ -142,5 +143,37 @@ class Task extends ActiveRecord
     {
         return $this->hasMany(Tag::class, ['id' => 'tag_id'])
             ->viaTable('task_tag', ['task_id' => 'id']);
+    }
+
+    public function fields()
+    {
+        $parentFields = parent::fields();
+        $modelFields = [
+            'created_at' => function() {
+                if (isset($this->created_at)) {
+                    return Yii::$app->formatter->asDatetime($this->created_at);
+                }
+
+                return null;
+            },
+            'updated_at' => function() {
+                if (isset($this->updated_at)) {
+                    return Yii::$app->formatter->asDatetime($this->updated_at);
+                }
+
+                return null;
+            },
+            'priority_id' => function() {
+                return $this->priority->name;
+            },
+            'status_id' => function() {
+                return $this->status->name;
+            },
+            'author_id' => function() {
+                return $this->author->username;
+            }
+        ];
+
+        return array_merge($parentFields, $modelFields);
     }
 }
