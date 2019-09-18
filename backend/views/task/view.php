@@ -1,5 +1,6 @@
 <?php
 
+use common\models\Task;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
@@ -32,12 +33,26 @@ $this->params['breadcrumbs'][] = $this->title;
             'id',
             'name',
             'description:ntext',
-            'author_id',
-            'status_id',
-            'priority_id',
-            'project_id',
-            'created_at',
-            'updated_at',
+            [
+                'label' => 'Author Name',
+                'value' => function(Task $model) {
+                    return $model->author->username;
+                }
+            ],
+            'status.name',
+            'priority.name',
+            [
+                'label' => 'Project Name',
+                'value' => function(Task $model) {
+                    if (!empty($model->project)) {
+                        return $model->project->name;
+                    } else {
+                        return null;
+                    }
+                }
+            ],
+            'created_at:datetime',
+            'updated_at:datetime',
         ],
     ]) ?>
 
