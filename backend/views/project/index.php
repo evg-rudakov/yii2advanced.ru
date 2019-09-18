@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'attribute' => 'taskCreated',
+                'attribute' => 'projectCreated',
                 'value' => function(Project $model) {
                     return Yii::$app->formatter->asDate($model->created_at, 'dd.MM.yyy');
                 }
