@@ -108,4 +108,14 @@ class Project extends ActiveRecord
     {
         return $this->hasMany(Task::class, ['project_id' => 'id']);
     }
+
+    public static function getActiveProjects(): array {
+        return self::find()
+            ->where('status_id != :finish_status_id', [':finish_status_id' => ProjectStatus::FINISHED])
+            ->all();
+    }
+
+    public static function getAllProjects(): array {
+        return self::find()->all();
+    }
 }

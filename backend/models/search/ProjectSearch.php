@@ -11,6 +11,9 @@ use common\models\Project;
  */
 class ProjectSearch extends Project
 {
+    public $authorName;
+    public $statusName;
+
     /**
      * {@inheritdoc}
      */
@@ -19,6 +22,7 @@ class ProjectSearch extends Project
         return [
             [['id', 'author_id', 'status_id', 'created_at', 'updated_at'], 'integer'],
             [['name', 'description'], 'safe'],
+            [['authorName', 'statusName'], 'string'],
         ];
     }
 
@@ -66,7 +70,9 @@ class ProjectSearch extends Project
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description]);
+            ->andFilterWhere(['like', 'description', $this->description])
+            ->andFilterWhere(['=', 'author_id', $this->authorName])
+            ->andFilterWhere(['=', 'status_id', $this->statusName]);
 
         return $dataProvider;
     }
