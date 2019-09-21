@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\models\search;
+namespace frontend\models\search;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
@@ -11,9 +11,7 @@ use common\models\Task;
  */
 class TaskSearch extends Task
 {
-    public $authorName;
     public $statusName;
-    public $projectName;
     public $priorityName;
 
     /**
@@ -23,8 +21,8 @@ class TaskSearch extends Task
     {
         return [
             [['id', 'author_id', 'status_id', 'priority_id', 'project_id', 'created_at', 'updated_at'], 'integer'],
+            [['statusName', 'priorityName'], 'string'],
             [['name', 'description'], 'safe'],
-            [['authorName', 'statusName', 'projectName', 'priorityName'], 'string'],
         ];
     }
 
@@ -44,13 +42,9 @@ class TaskSearch extends Task
      *
      * @return ActiveDataProvider
      */
-    public function search($params, $projectId = null)
+    public function search($params)
     {
         $query = Task::find();
-
-        if (isset($projectId)) {
-            $query->where(['project_id' => $projectId]);
-        }
 
         // add conditions that should always apply here
 
@@ -79,10 +73,8 @@ class TaskSearch extends Task
 
         $query->andFilterWhere(['like', 'name', $this->name])
             ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['=', 'author_id', $this->authorName])
-            ->andFilterWhere(['=', 'status_id', $this->statusName])
-            ->andFilterWhere(['=', 'priority_id', $this->priorityName])
-            ->andFilterWhere(['=', 'project_id', $this->projectName]);
+            ->andFilterWhere(['like', 'status_id', $this->statusName])
+            ->andFilterWhere(['like', 'priority_id', $this->priorityName]);
 
         return $dataProvider;
     }

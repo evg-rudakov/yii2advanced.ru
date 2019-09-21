@@ -6,6 +6,7 @@ use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
 use yii\web\IdentityInterface;
+use function GuzzleHttp\Promise\all;
 
 /**
  * User model
@@ -43,7 +44,14 @@ class User extends ActiveRecord implements IdentityInterface
     public function behaviors()
     {
         return [
-            TimestampBehavior::className(),
+            'timestampBehavior' => [
+                'class' => TimestampBehavior::class,
+                'attributes' => [
+                    ActiveRecord::EVENT_BEFORE_INSERT => ['created_at', 'updated_at'],
+                    ActiveRecord::EVENT_BEFORE_UPDATE => ['updated_at'],
+                    'value' => time(),
+                ],
+            ],
         ];
     }
 
@@ -205,5 +213,21 @@ class User extends ActiveRecord implements IdentityInterface
     public function removePasswordResetToken()
     {
         $this->password_reset_token = null;
+    }
+
+    public static function getActiveUsers(): array {
+        return self::find()->where(['status' => self::STATUS_ACTIVE])->all();
+    }
+
+    public static function getAllUsers(): array {
+        return self::find()->all();
+    }
+
+    public static function getValueName() {
+        return [
+            self::STATUS_ACTIVE => 'Активирован',
+            self::STATUS_DELETED => 'Удален',
+            self::STATUS_INACTIVE => 'Заблокирован',
+        ];
     }
 }

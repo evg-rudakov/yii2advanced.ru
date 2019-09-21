@@ -3,8 +3,8 @@
 namespace common\models;
 
 use Yii;
-use yii\db\ActiveRecord;
 use yii\behaviors\TimestampBehavior;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "chat_log".
@@ -13,12 +13,15 @@ use yii\behaviors\TimestampBehavior;
  * @property string $username
  * @property string $message
  * @property int $created_at
+ * @property int $updated_at
+ * @property int $project_id
  *
- * @property User $user
+ * @property Project $project
  */
 class ChatLog extends ActiveRecord
 {
     const TIME_BEHAVIOR_NAME = 'timeBehavior';
+
     /**
      * {@inheritdoc}
      */
@@ -47,9 +50,10 @@ class ChatLog extends ActiveRecord
     public function rules()
     {
         return [
-            [['username', 'created_at', 'updated_at'], 'required'],
-            [['created_at', 'updated_at'], 'integer'],
+            [['username', 'created_at', 'updated_at', 'project_id'], 'required'],
+            [['created_at', 'updated_at', 'project_id'], 'integer'],
             [['username', 'message'], 'string', 'max' => 255],
+            [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::class, 'targetAttribute' => ['project_id' => 'id']],
         ];
     }
 
@@ -64,7 +68,16 @@ class ChatLog extends ActiveRecord
             'message' => 'Message',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'project_id' => 'Project ID',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getProject()
+    {
+        return $this->hasOne(Project::class, ['id' => 'project_id']);
     }
 
     public static function saveLog(string $msg) {

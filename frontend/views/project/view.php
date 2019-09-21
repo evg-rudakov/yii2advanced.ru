@@ -3,31 +3,26 @@
 use common\models\Task;
 use common\models\TaskPriority;
 use common\models\TaskStatus;
-use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Html;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\search\TaskSearch */
-/* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $filterAuthor common\models\User[] */
-/* @var $filterProject common\models\Project[] */
+/* @var $model common\models\Project */
+/* @var $taskSearchModel backend\models\search\TaskSearch */
+/* @var $taskDataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Tasks';
+$this->title = $model->name;
+$this->params['breadcrumbs'][] = ['label' => 'Projects', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
+\yii\web\YiiAsset::register($this);
 ?>
-<div class="task-index">
+<div class="project-view">
 
-    <h1><?= Html::encode($this->title) ?></h1>
-
-    <p>
-        <?= Html::a('Create Task', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
+    <h1>Tasks for <?= Html::encode($this->title) ?></h1>
 
     <?= GridView::widget([
-        'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+        'dataProvider' => $taskDataProvider,
+        'filterModel' => $taskSearchModel,
         'columns' => [
             //['class' => 'yii\grid\SerialColumn'],
 
@@ -40,13 +35,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'description:ntext',
-            [
-                'attribute' => 'authorName',
-                'filter' => $filterAuthor,
-                'value' => function(Task $model) {
-                    return $model->author->username;
-                }
-            ],
             [
                 'attribute' => 'statusName',
                 'filter' => TaskStatus::getValueName(),
@@ -62,28 +50,22 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'attribute' => 'projectName',
-                'filter' => $filterProject,
-                'value' => function(Task $model) {
-                    if (!empty($model->project)) {
-                        return $model->project->name;
-                    } else {
-                        return null;
-                    }
-                }
-            ],
-            [
                 'attribute' => 'taskCreated',
                 'value' => function(Task $model) {
                     return Yii::$app->formatter->asDate($model->created_at, 'dd.MM.yyy');
                 }
             ],
-            //'created_at:datetime',
-            //'updated_at:datetime',
+            [
+                'attribute' => 'author',
+                'value' => function(Task $model) {
+                    return $model->author->username;
+                }
+            ],
+            //'created_at',
+            //'updated_at',
 
             //['class' => 'yii\grid\ActionColumn'],
         ],
     ]); ?>
-
 
 </div>

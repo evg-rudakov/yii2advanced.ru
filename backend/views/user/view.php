@@ -1,18 +1,18 @@
 <?php
 
-use common\models\Task;
+use common\models\User;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 
 /* @var $this yii\web\View */
-/* @var $model common\models\Task */
+/* @var $model common\models\User */
 
-$this->title = $model->name;
-$this->params['breadcrumbs'][] = ['label' => 'Tasks', 'url' => ['index']];
+$this->title = $model->id;
+$this->params['breadcrumbs'][] = ['label' => 'Users', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 \yii\web\YiiAsset::register($this);
 ?>
-<div class="task-view">
+<div class="user-view">
 
     <h1><?= Html::encode($this->title) ?></h1>
 
@@ -31,28 +31,20 @@ $this->params['breadcrumbs'][] = $this->title;
         'model' => $model,
         'attributes' => [
             'id',
-            'name',
-            'description:ntext',
+            'username',
+            'auth_key',
+            'password_hash',
+            'password_reset_token',
+            'email:email',
             [
-                'label' => 'Author Name',
-                'value' => function(Task $model) {
-                    return $model->author->username;
-                }
-            ],
-            'status.name',
-            'priority.name',
-            [
-                'label' => 'Project Name',
-                'value' => function(Task $model) {
-                    if (!empty($model->project)) {
-                        return $model->project->name;
-                    } else {
-                        return null;
-                    }
+                'label' => 'status',
+                'value' => function(User $model) {
+                    return User::getValueName()[$model->status];
                 }
             ],
             'created_at:datetime',
             'updated_at:datetime',
+            'verification_token',
         ],
     ]) ?>
 

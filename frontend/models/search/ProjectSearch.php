@@ -1,20 +1,17 @@
 <?php
 
-namespace backend\models\search;
+namespace frontend\models\search;
 
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
-use common\models\Task;
+use common\models\Project;
 
 /**
- * TaskSearch represents the model behind the search form of `common\models\Task`.
+ * ProjectSearch represents the model behind the search form of `common\models\Project`.
  */
-class TaskSearch extends Task
+class ProjectSearch extends Project
 {
-    public $authorName;
     public $statusName;
-    public $projectName;
-    public $priorityName;
 
     /**
      * {@inheritdoc}
@@ -22,9 +19,9 @@ class TaskSearch extends Task
     public function rules()
     {
         return [
-            [['id', 'author_id', 'status_id', 'priority_id', 'project_id', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'author_id', 'status_id', 'created_at', 'updated_at'], 'integer'],
+            [['statusName'], 'string'],
             [['name', 'description'], 'safe'],
-            [['authorName', 'statusName', 'projectName', 'priorityName'], 'string'],
         ];
     }
 
@@ -44,13 +41,9 @@ class TaskSearch extends Task
      *
      * @return ActiveDataProvider
      */
-    public function search($params, $projectId = null)
+    public function search($params)
     {
-        $query = Task::find();
-
-        if (isset($projectId)) {
-            $query->where(['project_id' => $projectId]);
-        }
+        $query = Project::find();
 
         // add conditions that should always apply here
 
@@ -71,18 +64,13 @@ class TaskSearch extends Task
             'id' => $this->id,
             'author_id' => $this->author_id,
             'status_id' => $this->status_id,
-            'priority_id' => $this->priority_id,
-            'project_id' => $this->project_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'description', $this->description])
-            ->andFilterWhere(['=', 'author_id', $this->authorName])
             ->andFilterWhere(['=', 'status_id', $this->statusName])
-            ->andFilterWhere(['=', 'priority_id', $this->priorityName])
-            ->andFilterWhere(['=', 'project_id', $this->projectName]);
+            ->andFilterWhere(['like', 'description', $this->description]);
 
         return $dataProvider;
     }

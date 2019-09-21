@@ -7,10 +7,8 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 
 /* @var $this yii\web\View */
-/* @var $searchModel backend\models\search\TaskSearch */
+/* @var $searchModel frontend\models\search\TaskSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
-/* @var $filterAuthor common\models\User[] */
-/* @var $filterProject common\models\Project[] */
 
 $this->title = 'Tasks';
 $this->params['breadcrumbs'][] = $this->title;
@@ -19,18 +17,10 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>
-        <?= Html::a('Create Task', ['create'], ['class' => 'btn btn-success']) ?>
-    </p>
-
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-            //['class' => 'yii\grid\SerialColumn'],
-
             'id',
             [
                 'attribute' => 'name',
@@ -40,13 +30,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             'description:ntext',
-            [
-                'attribute' => 'authorName',
-                'filter' => $filterAuthor,
-                'value' => function(Task $model) {
-                    return $model->author->username;
-                }
-            ],
             [
                 'attribute' => 'statusName',
                 'filter' => TaskStatus::getValueName(),
@@ -62,26 +45,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 }
             ],
             [
-                'attribute' => 'projectName',
-                'filter' => $filterProject,
-                'value' => function(Task $model) {
-                    if (!empty($model->project)) {
-                        return $model->project->name;
-                    } else {
-                        return null;
-                    }
-                }
-            ],
-            [
                 'attribute' => 'taskCreated',
                 'value' => function(Task $model) {
                     return Yii::$app->formatter->asDate($model->created_at, 'dd.MM.yyy');
                 }
             ],
-            //'created_at:datetime',
-            //'updated_at:datetime',
-
-            //['class' => 'yii\grid\ActionColumn'],
+            [
+                'attribute' => 'author',
+                'value' => function(Task $model) {
+                    return $model->author->username;
+                }
+            ],
         ],
     ]); ?>
 
