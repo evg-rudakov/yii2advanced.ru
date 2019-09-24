@@ -32,11 +32,12 @@ phpunit.phar
 /phpunit.xml
 
 /my
-/frontend/runtime
-/frontend/web/assets
-/backend/runtime
-/backend/web/assets
-/console/runtime
+/frontend/runtime/*
+/frontend/web/assets/*
+/backend/runtime/*
+/backend/web/assets/*
+/console/runtime/*
+/api/runtime/*
 
 /docker/database/*
 
