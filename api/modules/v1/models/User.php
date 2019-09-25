@@ -5,6 +5,8 @@ use Yii;
 use yii\base\NotSupportedException;
 use yii\behaviors\TimestampBehavior;
 use yii\db\ActiveRecord;
+use yii\filters\auth\HttpBearerAuth;
+use yii\filters\auth\QueryParamAuth;
 use yii\web\IdentityInterface as IdentityInterfaceAlias;
 
 /**
@@ -80,7 +82,11 @@ class User extends ActiveRecord implements IdentityInterfaceAlias
      */
     public static function findIdentityByAccessToken($token, $type = null)
     {
-        throw new NotSupportedException('"findIdentityByAccessToken" is not implemented1.');
+        if ($type === HttpBearerAuth::class) {
+            return static::findOne(['auth_key' => $token]);
+        } else if ($type === QueryParamAuth::class) {
+            return static::findOne(['auth_key' => $token]);
+        }
     }
 
     /**
